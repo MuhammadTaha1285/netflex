@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Signup</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            transition: 0.3s;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* LIGHT THEME */
+        body.light {
+            background: linear-gradient(135deg, #dbeafe, #ffffff, #fca5a5);
+        }
+
+        /* DARK THEME */
+        body.dark {
+            background: linear-gradient(135deg, #020024, #090979, #ff0000);
+        }
+
+        .container {
+            width: 900px;
+            max-width: 100%;
+            min-height: 550px;
+            border-radius: 25px;
+            overflow: hidden;
+            display: flex;
+            backdrop-filter: blur(10px);
+        }
+
+        body.dark .container {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow:
+                0 0 20px rgba(0, 157, 255, 0.5),
+                0 0 40px rgba(255, 0, 0, 0.5);
+        }
+
+        body.light .container {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow:
+                0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* FORM SECTION */
+        .form-section {
+            width: 50%;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        body.dark .form-section {
+            background: white;
+        }
+
+        body.light .form-section {
+            background: #f9fafb;
+        }
+
+        .form-section h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 40px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .social-icons a {
+            width: 45px;
+            height: 45px;
+            background: #e5e7eb;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            color: black;
+        }
+
+        .social-icons a:hover {
+            background: black;
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px red;
+        }
+
+        /* LIGHT MODE FORM COLORS */
+        body.light .form-section {
+            background: linear-gradient(to bottom, #dbeafe, #bfdbfe);
+        }
+
+        /* SIGN IN & SIGN UP HEADING COLOR */
+        body.light .form-section h1 {
+            color: #1e3a8a;
+        }
+
+        /* INPUT BOX COLOR */
+        body.light .input-box input {
+            background: #ffffff;
+            color: #000;
+            border: 1px solid #93c5fd;
+        }
+
+        /* RIGHT SIDE BLACK */
+        body.light .welcome-section {
+            background: linear-gradient(to bottom, #000000, #111111);
+            color: white;
+        }
+
+        /* BUTTON COLOR */
+        body.light .btn {
+            background: linear-gradient(to right, #2563eb, #1e40af);
+        }
+
+        /* BUTTON HOVER */
+        body.light .btn:hover {
+            box-shadow: 0 0 20px #2563eb;
+        }
+
+        /* SOCIAL ICONS */
+        body.light .social-icons a {
+            background: white;
+            color: #1e3a8a;
+        }
+
+        /* SOCIAL ICONS HOVER */
+        body.light .social-icons a:hover {
+            background: black;
+            color: white;
+        }
+
+        /* TEXT COLOR */
+        body.light .text {
+            color: #374151;
+        }
+
+        /* ========================= */
+        /* LIGHT MODE HOVER EFFECTS */
+        /* ========================= */
+
+        /* FORM SECTION HOVER */
+        body.light .form-section:hover {
+            box-shadow: 0 0 25px rgba(37, 99, 235, 0.4);
+            transition: 0.4s ease;
+        }
+
+        /* INPUT HOVER */
+        body.light .input-box input:hover {
+            transform: scale(1.03);
+            background: #eff6ff;
+            box-shadow: 0 0 12px rgba(37, 99, 235, 0.5);
+        }
+
+        /* INPUT FOCUS */
+        body.light .input-box input:focus {
+            border: 2px solid #2563eb;
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.6);
+        }
+
+        /* BUTTON HOVER */
+        body.light .btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(to right, #1d4ed8, #2563eb);
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.7);
+        }
+
+        /* SOCIAL ICONS HOVER */
+        body.light .social-icons a:hover {
+            background: #2563eb;
+            color: white;
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.6);
+        }
+
+        /* HEADING HOVER */
+        body.light .form-section h1:hover {
+            color: #2563eb;
+            text-shadow: 0 0 10px rgba(37, 99, 235, 0.6);
+            letter-spacing: 2px;
+        }
+
+        /* TOGGLE BUTTON HOVER */
+        body.light .toggle-btn:hover,
+        body.light .theme-btn:hover {
+            background: white;
+            color: #2563eb;
+            transform: scale(1.08);
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.5);
+        }
+
+        /* WELCOME SECTION HOVER */
+        body.light .welcome-section:hover {
+            box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.1);
+        }
+
+        /* LINK HOVER */
+        body.light .forgot a:hover {
+            color: #2563eb;
+            text-shadow: 0 0 8px rgba(37, 99, 235, 0.5);
+        }
+
+        /* CONTAINER HOVER */
+        body.light .container:hover {
+            transform: translateY(-8px);
+            box-shadow:
+                0 0 20px rgba(37, 99, 235, 0.5),
+                0 0 40px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ========================= */
+        /* DARK MODE FULL HOVER CSS */
+        /* ========================= */
+
+        /* MAIN CONTAINER */
+        body.dark .container {
+            transition: all 0.4s ease;
+        }
+
+        body.dark .container:hover {
+            transform: translateY(-8px);
+            box-shadow:
+                0 0 25px rgba(255, 0, 0, 0.5),
+                0 0 40px rgba(0, 157, 255, 0.5);
+        }
+
+        /* FORM SECTION */
+        body.dark .form-section {
+            transition: all 0.4s ease;
+        }
+
+        body.dark .form-section:hover {
+            box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.2);
+        }
+
+        /* INPUT BOX */
+        body.dark .input-box input {
+            transition: all 0.3s ease;
+        }
+
+        body.dark .input-box input:hover {
+            transform: scale(1.03);
+            background: #f5f5f5;
+            box-shadow:
+                0 0 10px rgba(255, 0, 0, 0.4),
+                0 0 20px rgba(0, 157, 255, 0.3);
+        }
+
+        /* INPUT FOCUS */
+        body.dark .input-box input:focus {
+            border: 2px solid red;
+            background: white;
+            box-shadow:
+                0 0 15px rgba(255, 0, 0, 0.6),
+                0 0 25px rgba(0, 157, 255, 0.4);
+        }
+
+        /* BUTTON */
+        body.dark .btn {
+            transition: all 0.3s ease;
+        }
+
+        body.dark .btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(to right, red, black);
+            box-shadow:
+                0 0 20px rgba(255, 0, 0, 0.7),
+                0 0 35px rgba(255, 0, 0, 0.4);
+        }
+
+        /* SOCIAL ICONS */
+        body.dark .social-icons a {
+            transition: all 0.3s ease;
+        }
+
+        body.dark .social-icons a:hover {
+            background: black;
+            color: white;
+            transform: translateY(-5px) scale(1.1);
+            box-shadow:
+                0 0 15px rgba(255, 0, 0, 0.7),
+                0 0 25px rgba(0, 157, 255, 0.4);
+        }
+
+        /* HEADINGS */
+        body.dark .form-section h1,
+        body.dark .welcome-section h1 {
+            transition: all 0.3s ease;
+        }
+
+        body.dark .form-section h1:hover,
+        body.dark .welcome-section h1:hover {
+            color: red;
+            letter-spacing: 2px;
+            text-shadow:
+                0 0 10px rgba(255, 0, 0, 0.8),
+                0 0 20px rgba(255, 0, 0, 0.5);
+        }
+
+        /* LINKS */
+        body.dark .forgot a {
+            transition: all 0.3s ease;
+        }
+
+        body.dark .forgot a:hover {
+            color: #ff4d4d;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+        }
+
+        .container {
+            overflow: hidden;
+        }
+
+        .social-icons {
+            overflow: visible;
+        }
+
+        .social-icons a {
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+        }
+
+        .container {
+            overflow: visible;
+            /* instead of hidden */
+        }
+
+        button,
+        .toggle-btn,
+        .theme-btn,
+        .social-icons a,
+        .forgot a {
+            cursor: pointer;
+        }
+
+        #welcome-title {
+            background: linear-gradient(90deg, #fa0000, #ff0000, #0400ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        /* Remove hover from Sign In / Create Account headings */
+        body.light .form-section h1:hover,
+        body.dark .form-section h1:hover,
+        body.dark .welcome-section h1:hover {
+            color: inherit;
+            text-shadow: none;
+            letter-spacing: normal;
+            transform: none;
+        }
+
+        /* #welcome-title:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 15px rgba(255, 77, 77, 0.6);
+        } */
+
+        .container {
+            border-radius: 40px;
+            /* pehle 25px tha, ab zyada round */
+        }
+
+        .container {
+            border-radius: 60px;
+        }
+
+        .container {
+            border-radius: 50px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .container {
+            border-radius: 35px;
+        }
+
+        .container {
+            border-radius: 45px;
+        }
+
+        .container {
+            border-radius: 40px;
+            overflow: hidden;
+        }
+
+        .welcome-section .toggle-btn {
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .welcome-section .toggle-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        /* TOGGLE BUTTON */
+        body.dark .toggle-btn,
+        body.dark .theme-btn {
+            transition: all 0.3s ease;
+        }
+
+        body.dark .toggle-btn:hover,
+        body.dark .theme-btn:hover {
+            background: white;
+            color: red;
+            transform: scale(1.08);
+            box-shadow:
+                0 0 15px rgba(255, 0, 0, 0.5),
+                0 0 25px rgba(255, 255, 255, 0.2);
+        }
+
+        /* WELCOME SECTION */
+        body.dark .welcome-section {
+            transition: all 0.4s ease;
+        }
+
+        body.dark .welcome-section:hover {
+            box-shadow: inset 0 0 30px rgba(255, 0, 0, 0.15);
+        }
+
+        /* INPUT ICONS */
+        body.dark .input-box i {
+            transition: all 0.3s ease;
+        }
+
+        body.dark .input-box:hover i {
+            color: #009dff;
+            transform: scale(1.2);
+        }
+
+        /* WHOLE FORM ANIMATION */
+        body.dark .form-section form:hover,
+        body.dark #signin-form:hover,
+        body.dark #signup-form:hover {
+            transform: scale(1.01);
+        }
+
+        .text {
+            text-align: center;
+            margin-bottom: 20px;
+            color: gray;
+        }
+
+        .input-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 15px 45px;
+            border: none;
+            border-radius: 12px;
+            background: #eee;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .input-box input:focus {
+            border: 2px solid red;
+            box-shadow: 0 0 10px red;
+        }
+
+        .input-box i {
+            position: absolute;
+            left: 15px;
+            top: 16px;
+            color: red;
+        }
+
+        .forgot {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .forgot a {
+            text-decoration: none;
+            color: red;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(to right, black, red);
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px red;
+        }
+
+        /* RIGHT SIDE */
+        .welcome-section {
+            width: 50%;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 40px;
+            position: relative;
+        }
+
+        body.dark .welcome-section {
+            background: linear-gradient(to bottom, #000000, #220000);
+        }
+
+        body.light .welcome-section {
+            background: linear-gradient(to bottom, #2563eb, #1e3a8a);
+        }
+
+        .welcome-section h1 {
+            font-size: 45px;
+            margin-bottom: 20px;
+        }
+
+        .welcome-section p {
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-size: 18px;
+        }
+
+        .toggle-btn,
+        .theme-btn {
+            padding: 12px 35px;
+            border: 2px solid white;
+            background: transparent;
+            color: white;
+            border-radius: 30px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .toggle-btn:hover,
+        .theme-btn:hover {
+            background: white;
+            color: red;
+        }
+
+        /* THEME BUTTON */
+        .theme-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+        }
+
+        /* SIGNUP HIDE */
+        .signup-form {
+            display: none;
+        }
+
+        /* MOBILE */
+        @media(max-width:768px) {
+
+            .container {
+                flex-direction: column;
+            }
+
+            .form-section,
+            .welcome-section {
+                width: 100%;
+            }
+
+            .form-section h1,
+            .welcome-section h1 {
+                font-size: 30px;
+            }
+
+            .theme-btn {
+                position: static;
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark">
+
+    <div class="container">
+
+        <!-- FORM SECTION -->
+        <div class="form-section">
+
+            <!-- SIGN IN -->
+            <div id="signin-form">
+
+                <h1>Sign In</h1>
+
+                <div class="social-icons">
+                    <a href="https://wa.link/zm8c0s"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://github.com/MuhammadTaha1285"><i class="fab fa-github"></i></a>
+                    <a
+                        href="https://www.linkedin.com/in/muhummad-taha-7798b8381?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"><i
+                            class="fab fa-linkedin"></i></a>
+                </div>
+                <p class="text">Use your email and password</p>
+
+                <div class="input-box">
+                    <i class="fa fa-envelope"></i>
+                    <input type="email" placeholder="Email">
+                </div>
+
+                <div class="input-box">
+                    <i class="fa fa-lock"></i>
+                    <input type="password" placeholder="Password">
+                </div>
+
+                <div class="forgot">
+                    <a href="#">Forgot Password?</a>
+                </div>
+
+                <button class="btn">Sign In</button>
+
+            </div>
+
+            <!-- SIGN UP -->
+            <div id="signup-form" class="signup-form">
+
+                <h1>Create Account</h1>
+
+                <div class="social-icons">
+                    <a href="https://wa.link/zm8c0s"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://github.com/MuhammadTaha1285"><i class="fab fa-github"></i></a>
+                    <a
+                        href="https://www.linkedin.com/in/muhummad-taha-7798b8381?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"><i
+                            class="fab fa-linkedin"></i></a>
+                </div>
+
+                <p class="text">Create your new account</p>
+
+                <div class="input-box">
+                    <i class="fa fa-user"></i>
+                    <input type="text" placeholder="Full Name">
+                </div>
+
+                <div class="input-box">
+                    <i class="fa fa-envelope"></i>
+                    <input type="email" placeholder="Email">
+                </div>
+
+                <div class="input-box">
+                    <i class="fa fa-lock"></i>
+                    <input type="password" placeholder="Password">
+                </div>
+
+                <button class="btn">Sign Up</button>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT SECTION -->
+        <div class="welcome-section">
+
+            <button class="theme-btn" id="theme-btn">
+                Light Mode
+            </button>
+
+            <h1 id="welcome-title">Welcome Back!</h1>
+
+            <p id="welcome-text">
+                Enter your personal details and start journey with us
+            </p>
+
+            <button class="toggle-btn" id="toggle-btn">
+                Sign Up
+            </button>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        const signInForm = document.getElementById("signin-form");
+        const signUpForm = document.getElementById("signup-form");
+        const toggleBtn = document.getElementById("toggle-btn");
+        const welcomeTitle = document.getElementById("welcome-title");
+        const welcomeText = document.getElementById("welcome-text");
+
+        let isSignIn = true;
+
+        toggleBtn.addEventListener("click", () => {
+
+            if (isSignIn) {
+
+                signInForm.style.display = "none";
+                signUpForm.style.display = "block";
+
+                welcomeTitle.innerText = "Hello Friend!";
+                welcomeText.innerText =
+                    "Register your details and enjoy all website features";
+
+                toggleBtn.innerText = "Sign In";
+
+            } else {
+
+                signInForm.style.display = "block";
+                signUpForm.style.display = "none";
+
+                welcomeTitle.innerText = "Welcome Back!";
+                welcomeText.innerText =
+                    "Enter your personal details and start journey with us";
+
+                toggleBtn.innerText = "Sign Up";
+            }
+
+            isSignIn = !isSignIn;
+        });
+
+        document.querySelector(".btn").addEventListener("click", function () {
+            const email = document.querySelector('input[type="email"]').value;
+            const password = document.querySelector('input[type="password"]').value;
+
+            if (email !== "" && password !== "") {
+                // refresh page
+                location.reload();
+            } else {
+                alert("Please fill email and password");
+            }
+        });
+        document.querySelector("#signup-form .btn").addEventListener("click", function () {
+
+            const name = document.querySelector('#signup-form input[type="text"]').value;
+            const email = document.querySelectorAll('#signup-form input[type="email"]')[0].value;
+            const password = document.querySelectorAll('#signup-form input[type="password"]')[0].value;
+
+            if (name && email && password) {
+
+                setTimeout(() => {
+                    location.reload(); // page refresh
+                }, 500);
+
+            } else {
+                alert("Please fill all fields");
+            }
+        });
+        /* DARK & LIGHT THEME */
+
+        const body = document.body;
+        const themeBtn = document.getElementById("theme-btn");
+
+        themeBtn.addEventListener("click", () => {
+
+            if (body.classList.contains("dark")) {
+
+                body.classList.remove("dark");
+                body.classList.add("light");
+
+                themeBtn.innerText = "Dark Mode";
+
+            } else {
+
+                body.classList.remove("light");
+                body.classList.add("dark");
+
+                themeBtn.innerText = "Light Mode";
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>
